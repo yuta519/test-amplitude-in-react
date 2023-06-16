@@ -9,7 +9,7 @@ mixpanel.init(mixpanelId, { debug: true });
 
 // Set this to a unique identifier for the user performing the event.
 // eg: their ID in your database or their email address.
-mixpanel.identify("ytkwmr18@gmail.com");
+mixpanel.identify("max@example.com");
 
 // Track an event. It can be anything, but in this example, we're tracking a Signed Up event.
 // Include a property about the signup, like the Signup Type
