@@ -21,6 +21,8 @@ function App() {
   const [count, setCount] = useState(0);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
+    // First arg is event name. This value will be shown as log title.
+    // Second arg is propertiies. This values will shown as detail info in log.
     mixpanel.track(`Clicked ${(event.target as Element).className}`, { count });
   };
 
