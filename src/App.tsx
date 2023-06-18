@@ -3,11 +3,11 @@ import * as amplitude from "@amplitude/analytics-browser";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
-  const amplitudeApi = import.meta.env.VITE_AMPLITUDE_API;
-  amplitude.init(amplitudeApi, `user+${count}@amplitude.com`);
+  const navigate = useNavigate();
 
   // Could add custom user properties if needed
   const identifyEvent = new amplitude.Identify();
@@ -47,13 +47,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="card">
+        <button onClick={() => navigate("/first")}>First Page</button>
+        <button onClick={() => navigate("/second")}>Second Page</button>
+        <button onClick={() => navigate("/third")}>Third Page</button>
+      </div>
     </>
   );
 }
