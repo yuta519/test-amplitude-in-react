@@ -3,6 +3,8 @@ import mixpanel from "mixpanel-browser";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import "./App.css";
+import { useNavigate } from "react-router-dom";
 
 const mixpanelId = import.meta.env.VITE_MIXPANEL_PROJECT_ID;
 mixpanel.init(mixpanelId, { debug: true });
@@ -19,6 +21,7 @@ mixpanel.identify("max@example.com");
 
 function App() {
   const [count, setCount] = useState(0);
+  const navigate = useNavigate();
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     // First arg is event name. This value will be shown as log title.
@@ -41,11 +44,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-
       <div className="card">
         <button className="button-1" onClick={handleClick}>
           Button 1
@@ -60,6 +59,11 @@ function App() {
         <button className="button-3" onClick={handleClick}>
           Button 3
         </button>
+      </div>
+      <div className="card">
+        <button onClick={() => navigate("/first")}>First Page</button>
+        <button onClick={() => navigate("/second")}>Second Page</button>
+        <button onClick={() => navigate("/third")}>Third Page</button>
       </div>
     </>
   );
