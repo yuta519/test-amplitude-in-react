@@ -9,6 +9,8 @@ function App() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
+  amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
+
   // Could add custom user properties if needed
   const identifyEvent = new amplitude.Identify();
   identifyEvent.set("location", "LAX");
