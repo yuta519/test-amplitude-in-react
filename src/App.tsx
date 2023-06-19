@@ -1,7 +1,6 @@
-import { createContext, MouseEvent, useState } from "react";
-import mixpanel from "mixpanel-browser";
+import { createContext } from "react";
+import mixpanel, { OverridedMixpanel } from "mixpanel-browser";
 import "./App.css";
-import { useNavigate } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { FirstPage } from "./pages/FirstPage";
 import { ThirdPage } from "./pages/ThirdPage";
@@ -15,11 +14,9 @@ const router = createBrowserRouter([
   { path: "/third", element: <ThirdPage /> },
 ]);
 
-const mixpanelId = import.meta.env.VITE_MIXPANEL_PROJECT_ID;
-
 // Set this to a unique identifier for the user performing the event.
 // eg: their ID in your database or their email address.
-mixpanel.init(mixpanelId, { debug: true });
+mixpanel.init(import.meta.env.VITE_MIXPANEL_PROJECT_ID, { debug: true });
 
 // Track an event. It can be anything, but in this example, we're tracking a Signed Up event.
 // Include a property about the signup, like the Signup Type
@@ -28,21 +25,13 @@ mixpanel.init(mixpanelId, { debug: true });
 // });
 mixpanel.identify("max@example.com");
 
-export const MixpanelContext = createContext<any>(mixpanel);
+export const MixpanelContext = createContext<OverridedMixpanel>(mixpanel);
 
 function App() {
-  // const handleClick = (event: MouseEvent<HTMLElement>) => {
-  //   // First arg is event name. This value will be shown as log title.
-  //   // Second arg is propertiies. This values will shown as detail info in log.
-  //   mixpanel.track(`Clicked ${(event.target as Element).className}`, { count });
-  // };
-
   return (
-    <>
-      <MixpanelContext.Provider value={mixpanel}>
-        <RouterProvider router={router} />
-      </MixpanelContext.Provider>
-    </>
+    <MixpanelContext.Provider value={mixpanel}>
+      <RouterProvider router={router} />
+    </MixpanelContext.Provider>
   );
 }
 
