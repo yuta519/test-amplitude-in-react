@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { OverridedMixpanel } from "mixpanel-browser";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
+import { MixpanelContext } from "../App";
 
 export const FirstPage = () => {
-  const [count, setCount] = useState(0);
+  const mixpanel: OverridedMixpanel = useContext(MixpanelContext);
 
+  const handleClick = (event: React.MouseEvent) => {
+    mixpanel.track(`Clicked ${(event.target as Element).className}`, {
+      test: "test",
+    });
+  };
   return (
     <>
       <h1>First Page</h1>
@@ -17,8 +24,8 @@ export const FirstPage = () => {
         </a>
       </div>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button className="page1-button" onClick={handleClick}>
+          page1 button
         </button>
       </div>
     </>

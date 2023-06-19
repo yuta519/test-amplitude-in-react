@@ -1,35 +1,37 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { createContext } from "react";
+import mixpanel, { OverridedMixpanel } from "mixpanel-browser";
 import "./App.css";
-import { useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { FirstPage } from "./pages/FirstPage";
+import { ThirdPage } from "./pages/ThirdPage";
+import { SecondPage } from "./pages/SecondPage";
+import { Home } from "./pages/Home";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/first", element: <FirstPage /> },
+  { path: "/second", element: <SecondPage /> },
+  { path: "/third", element: <ThirdPage /> },
+]);
+
+// Set this to a unique identifier for the user performing the event.
+// eg: their ID in your database or their email address.
+mixpanel.init(import.meta.env.VITE_MIXPANEL_PROJECT_ID, { debug: true });
+
+// Track an event. It can be anything, but in this example, we're tracking a Signed Up event.
+// Include a property about the signup, like the Signup Type
+// mixpanel.track("Signed Up", {
+//   "Signup Type": "Referral",
+// });
+mixpanel.identify("max@example.com");
+
+export const MixpanelContext = createContext<OverridedMixpanel>(mixpanel);
 
 function App() {
-  const [count, setCount] = useState(0);
-  const navigate = useNavigate();
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <div className="card">
-        <button onClick={() => navigate("/first")}>First Page</button>
-        <button onClick={() => navigate("/second")}>Second Page</button>
-        <button onClick={() => navigate("/third")}>Third Page</button>
-      </div>
-    </>
+    <MixpanelContext.Provider value={mixpanel}>
+      <RouterProvider router={router} />
+    </MixpanelContext.Provider>
   );
 }
 
