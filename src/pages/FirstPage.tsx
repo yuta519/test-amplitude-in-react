@@ -4,10 +4,10 @@ import viteLogo from "/vite.svg";
 import { AmpliContext } from "../App";
 
 export const FirstPage = () => {
-  const ampli = useContext(AmpliContext);
+  const amplitude = useContext(AmpliContext);
 
   const handleClick = (event: React.MouseEvent) => {
-    ampli.amplitude?.track(`Clicked ${(event.target as Element).className}`, {
+    amplitude.track(`Clicked ${(event.target as Element).className}`, {
       test: "test",
     });
   };

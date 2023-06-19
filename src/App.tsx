@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createContext } from "react";
-import { Ampli } from "./Ampli";
 import { Home } from "./pages/Home";
 import { FirstPage } from "./pages/FirstPage";
 import { ThirdPage } from "./pages/ThirdPage";
 import { SecondPage } from "./pages/SecondPage";
+import * as amplitude from "@amplitude/analytics-browser";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -13,15 +13,31 @@ const router = createBrowserRouter([
   { path: "/third", element: <ThirdPage /> },
 ]);
 
-const ampli = new Ampli();
-ampli.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
-export const AmpliContext = createContext<any>(ampli);
+const DefaultConfiguration = {
+  plan: {
+    version: "1",
+    branch: "main",
+    source: "browser-ts-ampli-v2",
+    versionId: "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
+  },
+  ...{
+    ingestionMetadata: {
+      sourceName: "browser-typescript-ampli",
+      sourceVersion: "2.0.0",
+    },
+  },
+};
+
+amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com", {
+  ...DefaultConfiguration,
+});
+export const AmpliContext = createContext<any>(amplitude);
 
 function App() {
-  ampli.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
+  amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
 
   return (
-    <AmpliContext.Provider value={ampli}>
+    <AmpliContext.Provider value={amplitude}>
       <RouterProvider router={router} />
     </AmpliContext.Provider>
   );
