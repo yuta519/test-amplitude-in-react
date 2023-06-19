@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useContext } from "react";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
+import { AmpliContext } from "../App";
 
 export const SecondPage = () => {
-  const [count, setCount] = useState(0);
+  const ampli = useContext(AmpliContext);
+
+  const handleClick = (event: React.MouseEvent) => {
+    ampli.amplitude?.track(`Clicked ${(event.target as Element).className}`, {
+      test: "test",
+    });
+  };
 
   return (
     <>
-      <h1>Second Page</h1>
+      <h1>First Page</h1>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -17,8 +24,8 @@ export const SecondPage = () => {
         </a>
       </div>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button className="page2-button" onClick={handleClick}>
+          page2 button
         </button>
       </div>
     </>
