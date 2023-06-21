@@ -28,14 +28,10 @@ const DefaultConfiguration = {
   },
 };
 
-amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com", {
-  ...DefaultConfiguration,
-});
+amplitude.init(import.meta.env.VITE_AMPLITUDE_API, { ...DefaultConfiguration });
 export const AmpliContext = createContext<any>(amplitude);
 
 function App() {
-  amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
-
   return (
     <AmpliContext.Provider value={amplitude}>
       <RouterProvider router={router} />
