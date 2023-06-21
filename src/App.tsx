@@ -1,35 +1,45 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createContext } from "react";
+import { Home } from "./pages/Home";
+import { FirstPage } from "./pages/FirstPage";
+import { ThirdPage } from "./pages/ThirdPage";
+import { SecondPage } from "./pages/SecondPage";
+import * as amplitude from "@amplitude/analytics-browser";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/first", element: <FirstPage /> },
+  { path: "/second", element: <SecondPage /> },
+  { path: "/third", element: <ThirdPage /> },
+]);
+
+const DefaultConfiguration = {
+  plan: {
+    version: "1",
+    branch: "main",
+    source: "browser-ts-ampli-v2",
+    versionId: "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
+  },
+  ...{
+    ingestionMetadata: {
+      sourceName: "browser-typescript-ampli",
+      sourceVersion: "2.0.0",
+    },
+  },
+};
+
+amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com", {
+  ...DefaultConfiguration,
+});
+export const AmpliContext = createContext<any>(amplitude);
 
 function App() {
-  const [count, setCount] = useState(0);
-  const navigate = useNavigate();
+  amplitude.init(import.meta.env.VITE_AMPLITUDE_API, "user@amplitude.com");
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <div className="card">
-        <button onClick={() => navigate("/first")}>First Page</button>
-        <button onClick={() => navigate("/second")}>Second Page</button>
-        <button onClick={() => navigate("/third")}>Third Page</button>
-      </div>
-    </>
+    <AmpliContext.Provider value={amplitude}>
+      <RouterProvider router={router} />
+    </AmpliContext.Provider>
   );
 }
 

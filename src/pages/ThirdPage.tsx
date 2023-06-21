@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
+import { AmpliContext } from "../App";
 
 export const ThirdPage = () => {
-  const [count, setCount] = useState(0);
+  const amplitude = useContext(AmpliContext);
+
+  const handleClick = (event: React.MouseEvent) => {
+    amplitude.track(`Clicked ${(event.target as Element).className}`, {
+      test: "test",
+    });
+  };
 
   return (
     <>
@@ -17,8 +24,8 @@ export const ThirdPage = () => {
         </a>
       </div>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button className="page3-button" onClick={handleClick}>
+          page3 button
         </button>
       </div>
     </>
