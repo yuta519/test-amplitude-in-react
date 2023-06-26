@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 
 export const Home = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <h1>Home</h1>

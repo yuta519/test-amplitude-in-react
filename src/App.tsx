@@ -29,6 +29,7 @@ const DefaultConfiguration = {
 };
 
 amplitude.init(import.meta.env.VITE_AMPLITUDE_API, { ...DefaultConfiguration });
+
 export const AmpliContext = createContext<any>(amplitude);
 
 function App() {

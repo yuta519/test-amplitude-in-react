@@ -12,6 +12,10 @@ export const FirstPage = () => {
     });
   };
 
+  const handleChangeUserId = () => {
+    amplitude.setUserId("ytkwmr18+1@gmail.com");
+  };
+
   return (
     <>
       <h1>First Page</h1>
@@ -26,6 +30,11 @@ export const FirstPage = () => {
       <div className="card">
         <button className="page1-button" onClick={handleClick}>
           page1 button
+        </button>
+      </div>
+      <div className="card">
+        <button className="page1-button" onClick={handleChangeUserId}>
+          Change user id to "ytkwmr18+1@gmail.com"
         </button>
       </div>
     </>
